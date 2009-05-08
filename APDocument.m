@@ -1,19 +1,19 @@
 /*
  Copyright 2009, Arash Payan (http://arashpayan.com)
  This library is distributed under the terms of the GNU Lesser GPL.
- 
+
  This file is part of APXML.
- 
+
  APXML is free software: you can redistribute it and/or modify
  it under the terms of the GNU Lesser General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  APXML is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU Lesser General Public License for more details.
- 
+
  You should have received a copy of the GNU Lesser General Public License
  along with APXML.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,7 +24,7 @@
 /*
  You probably only need to care about this class if you want to make
  changes to the way APXML builds APDocuments.
- 
+
  This class is used as the NSXMLParser delegate that's responsible for
  building APDocuments.
 */
@@ -42,29 +42,29 @@
 @implementation APXMLBuilder
 
 - (id)init {
-	if (self = [super init])
+        if((self = [super init]))
 	{
 		rootElement = nil;
 		openElement = nil;
 		parentElement = nil;
 	}
-	
+
 	return self;
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
-	
+
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-	
+
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributeDict {
 	APElement *newElement = [APElement elementWithName:elementName attributes:attributeDict];
 	if (rootElement == nil)
 		rootElement = [newElement retain];
-	
+
 	if (openElement != nil)
 	{
 		newElement.parent = openElement;
@@ -89,11 +89,11 @@
 }
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-	
+
 }
 
 - (void)parser:(NSXMLParser *)parser validationErrorOccurred:(NSError *)validError {
-	
+
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
@@ -110,7 +110,7 @@
 - (void) dealloc
 {
 	[rootElement release];
-	
+
 	[super dealloc];
 }
 
@@ -139,11 +139,11 @@
  if you're creating a new document programmatically.
 */
 - (id)initWithRootElement:(APElement*)aRootElement {
-	if (self = [super init])
+        if((self = [super init]))
 	{
 		rootElement = [aRootElement retain];
 	}
-	
+
 	return self;
 }
 
@@ -151,19 +151,19 @@
  Initializes the document with an XML string.
 */
 - (id)initWithString:(NSString*)anXMLString {
-	if (self = [super init])
+        if ((self = [super init]))
 	{
 		APXMLBuilder *builder = [[APXMLBuilder alloc] init];
 		NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[anXMLString dataUsingEncoding:NSUTF8StringEncoding]];
 		[parser setDelegate:builder];
 		[parser parse];
-		
+
 		rootElement = [[builder rootElement] retain];
-		
+
 		[builder release];
 		[parser release];
 	}
-	
+
 	return self;
 }
 
@@ -209,7 +209,7 @@
 - (void) dealloc
 {
 	[rootElement release];
-	
+
 	[super dealloc];
 }
 
